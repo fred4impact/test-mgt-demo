@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: platform
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testmgmt
+    username: testmgmt
+    password: testmgmt
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+management:
+  endpoint:
+    health:
+      show-details: always
