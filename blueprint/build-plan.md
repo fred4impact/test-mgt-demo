@@ -65,10 +65,10 @@ If your first pass is just rough bullets, that is okay. Run `/overview` after
 filling both planning docs; it will flag plan-shape problems and can propose a
 cleaned-up checkbox version before generating the project overview.
 
-- [ ] 1. **Org & auth foundation** - organization creation, user accounts, login/logout via Keycloak/OIDC, profile
+- [x] 1. **Org & auth foundation** - organization creation, user accounts, login/logout via Keycloak/OIDC, profile
   - [x] 1a. **Project scaffolding & local dev environment** - Next.js frontend, Spring Boot (Maven) backend, Docker Compose for Postgres/Redis/Keycloak; both apps run locally with a health check
   - [x] 1b. **Organization & user model** - backend Organization/User entities + Flyway migrations + REST endpoints; minimal frontend to create the first organization
-  - [ ] 1c. **Keycloak login/logout & profile** - OIDC login flow, JWT validation on the backend, protected routes, session/logout, profile page
+  - [x] 1c. **Keycloak login/logout & profile** - OIDC login flow, JWT validation on the backend, protected routes, session/logout, profile page
 - [ ] 2. **Teams & roles** - teams, roles, permissions, RBAC assignment
 - [ ] 3. **Projects** - create/manage projects, project membership
 - [ ] 4. **Requirements** - create and manage requirements within a project
