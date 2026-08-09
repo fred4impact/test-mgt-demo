@@ -14,6 +14,9 @@ export default function Home() {
         <Link href="/teams/new" className="text-zinc-600 hover:underline dark:text-zinc-400">
           Teams
         </Link>
+        <Link href="/roles/new" className="text-zinc-600 hover:underline dark:text-zinc-400">
+          Roles
+        </Link>
         <Link href="/api/auth/signin?callbackUrl=/profile" className="text-zinc-600 hover:underline dark:text-zinc-400">
           Sign in
         </Link>
