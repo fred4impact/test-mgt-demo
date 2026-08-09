@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public MeDto resolveCurrentUser(Jwt jwt) {
-        User user = userRepository.findByExternalAuthId(jwt.getSubject()).orElseGet(() -> provision(jwt));
+        User user = resolveOrProvisionUser(jwt);
 
         Organization organization = organizationRepository
                 .findById(user.getOrganizationId())
@@ -34,6 +34,14 @@ public class UserService {
                 user.getLastName(),
                 organization.getId(),
                 organization.getName());
+    }
+
+    /**
+     * Resolves the User behind a JWT, auto-provisioning on first login.
+     * Reused by any endpoint that needs "who is this and what org are they in."
+     */
+    public User resolveOrProvisionUser(Jwt jwt) {
+        return userRepository.findByExternalAuthId(jwt.getSubject()).orElseGet(() -> provision(jwt));
     }
 
     private User provision(Jwt jwt) {

@@ -69,8 +69,8 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 1a. **Project scaffolding & local dev environment** - Next.js frontend, Spring Boot (Maven) backend, Docker Compose for Postgres/Redis/Keycloak; both apps run locally with a health check
   - [x] 1b. **Organization & user model** - backend Organization/User entities + Flyway migrations + REST endpoints; minimal frontend to create the first organization
   - [x] 1c. **Keycloak login/logout & profile** - OIDC login flow, JWT validation on the backend, protected routes, session/logout, profile page
-- [ ] 2. **Teams & roles** - teams, roles, permissions, RBAC assignment
-- [ ] 3. **Projects** - create/manage projects, project membership
+- [x] 2. **Projects** - create/manage projects (project membership moved to feature 3, alongside Role)
+- [ ] 3. **Teams & roles** - teams, roles, permissions, RBAC assignment (assignment via `ProjectMember.roleId`, added by this feature)
 - [ ] 4. **Requirements** - create and manage requirements within a project
 - [ ] 5. **Test case repository** - folders, test cases, test steps, tags
 - [ ] 6. **Test suites** - group test cases into suites

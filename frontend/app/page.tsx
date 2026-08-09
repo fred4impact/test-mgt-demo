@@ -8,6 +8,9 @@ export default function Home() {
         <Link href="/organizations/new" className="text-zinc-600 hover:underline dark:text-zinc-400">
           Organizations
         </Link>
+        <Link href="/projects/new" className="text-zinc-600 hover:underline dark:text-zinc-400">
+          Projects
+        </Link>
         <Link href="/api/auth/signin?callbackUrl=/profile" className="text-zinc-600 hover:underline dark:text-zinc-400">
           Sign in
         </Link>
