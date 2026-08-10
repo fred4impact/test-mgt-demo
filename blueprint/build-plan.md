@@ -70,10 +70,10 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 1b. **Organization & user model** - backend Organization/User entities + Flyway migrations + REST endpoints; minimal frontend to create the first organization
   - [x] 1c. **Keycloak login/logout & profile** - OIDC login flow, JWT validation on the backend, protected routes, session/logout, profile page
 - [x] 2. **Projects** - create/manage projects (project membership moved to feature 3, alongside Role)
-- [ ] 3. **Teams & roles** - teams, roles, permissions, RBAC assignment (assignment via `ProjectMember.roleId`, added by this feature)
+- [x] 3. **Teams & roles** - teams, roles, permissions, RBAC assignment (assignment via `ProjectMember.roleId`, added by this feature)
   - [x] 3a. **Teams** - Team + TeamMember, org-scoped CRUD, add/remove members
   - [x] 3b. **Roles & permissions catalog** - seeded Permission catalog, org-scoped Role CRUD, attach/detach permissions to a role
-  - [ ] 3c. **Project membership & role assignment** - ProjectMember (assign a user to a project with a role); enforcing permissions on endpoints is a separate later concern, not this sub-feature
+  - [x] 3c. **Project membership & role assignment** - ProjectMember (assign a user to a project with a role); enforcing permissions on endpoints is a separate later concern, not this sub-feature
 - [ ] 4. **Requirements** - create and manage requirements within a project
 - [ ] 5. **Test case repository** - folders, test cases, test steps, tags
 - [ ] 6. **Test suites** - group test cases into suites
