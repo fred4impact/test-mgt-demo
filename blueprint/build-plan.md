@@ -77,7 +77,7 @@ cleaned-up checkbox version before generating the project overview.
 - [x] 4. **Requirements** - create and manage requirements within a project
 - [ ] 5. **Test case repository** - folders, test cases, test steps, tags
   - [x] 5a. **Test folders** - TestFolder, project-scoped, nested (self-referencing parentId), org-scoped through project
-  - [ ] 5b. **Test cases & steps** - TestCase (in a folder, server-generated key like Requirement's) + TestStep, create/read
+  - [x] 5b. **Test cases & steps** - TestCase (in a folder, server-generated key like Requirement's) + TestStep, create/read
   - [ ] 5c. **Test case editing & version history** - update a test case (title/steps/status/etc.), snapshotting the prior state into TestCaseVersion before applying changes
   - [ ] 5d. **Tags** - project-scoped Tag catalog + TestCaseTag, attach/detach tags to a test case
 - [ ] 6. **Test suites** - group test cases into suites
