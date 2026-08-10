@@ -2,6 +2,8 @@ package com.testmgmt.platform.testcase.controller;
 
 import com.testmgmt.platform.testcase.dto.CreateTestCaseRequest;
 import com.testmgmt.platform.testcase.dto.TestCaseDto;
+import com.testmgmt.platform.testcase.dto.TestCaseVersionDto;
+import com.testmgmt.platform.testcase.dto.UpdateTestCaseRequest;
 import com.testmgmt.platform.testcase.service.TestCaseService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +49,20 @@ public class TestCaseController {
     @GetMapping
     public List<TestCaseDto> list(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID projectId) {
         return testCaseService.list(jwt, projectId);
+    }
+
+    @PutMapping("/{id}")
+    public TestCaseDto update(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID projectId,
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateTestCaseRequest request) {
+        return testCaseService.update(jwt, projectId, id, request);
+    }
+
+    @GetMapping("/{id}/versions")
+    public List<TestCaseVersionDto> listVersions(
+            @AuthenticationPrincipal Jwt jwt, @PathVariable UUID projectId, @PathVariable UUID id) {
+        return testCaseService.listVersions(jwt, projectId, id);
     }
 }

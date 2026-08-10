@@ -78,7 +78,7 @@ cleaned-up checkbox version before generating the project overview.
 - [ ] 5. **Test case repository** - folders, test cases, test steps, tags
   - [x] 5a. **Test folders** - TestFolder, project-scoped, nested (self-referencing parentId), org-scoped through project
   - [x] 5b. **Test cases & steps** - TestCase (in a folder, server-generated key like Requirement's) + TestStep, create/read
-  - [ ] 5c. **Test case editing & version history** - update a test case (title/steps/status/etc.), snapshotting the prior state into TestCaseVersion before applying changes
+  - [x] 5c. **Test case editing & version history** - update a test case (title/steps/status/etc.), snapshotting the prior state into TestCaseVersion before applying changes
   - [ ] 5d. **Tags** - project-scoped Tag catalog + TestCaseTag, attach/detach tags to a test case
 - [ ] 6. **Test suites** - group test cases into suites
 - [ ] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
@@ -91,3 +91,4 @@ cleaned-up checkbox version before generating the project overview.
 - [ ] 14. **Reporting dashboard** - execution stats, pass/fail, coverage, defect stats, release progress
 - [ ] 15. **CSV export** - export reports and test data
 - [ ] 16. **Automation result ingestion** - accept JUnit/TestNG/Cucumber/pytest/Playwright/Cypress results, automation dashboard
+- [ ] 17. **Navigation & dashboard** - replace today's flat per-entity pages (Organizations/Projects/Teams/Roles as disconnected islands) with real drill-down: an org home showing its projects, a project detail hub linking to that project's requirements/test cases/members, breadcrumbs. Revisit once enough entities exist that the shape is obvious - placeholder for now, not scoped

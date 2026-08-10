@@ -6,11 +6,15 @@ import com.testmgmt.platform.project.repository.ProjectRepository;
 import com.testmgmt.platform.testcase.dto.CreateTestCaseRequest;
 import com.testmgmt.platform.testcase.dto.CreateTestStepRequest;
 import com.testmgmt.platform.testcase.dto.TestCaseDto;
+import com.testmgmt.platform.testcase.dto.TestCaseVersionDto;
 import com.testmgmt.platform.testcase.dto.TestStepDto;
+import com.testmgmt.platform.testcase.dto.UpdateTestCaseRequest;
 import com.testmgmt.platform.testcase.entity.TestCase;
+import com.testmgmt.platform.testcase.entity.TestCaseVersion;
 import com.testmgmt.platform.testcase.entity.TestStep;
 import com.testmgmt.platform.testcase.mapper.TestCaseMapper;
 import com.testmgmt.platform.testcase.repository.TestCaseRepository;
+import com.testmgmt.platform.testcase.repository.TestCaseVersionRepository;
 import com.testmgmt.platform.testcase.repository.TestStepRepository;
 import com.testmgmt.platform.testfolder.repository.TestFolderRepository;
 import com.testmgmt.platform.user.entity.User;
@@ -21,6 +25,7 @@ import java.util.UUID;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class TestCaseService {
@@ -29,19 +34,25 @@ public class TestCaseService {
     private final TestFolderRepository testFolderRepository;
     private final TestCaseRepository testCaseRepository;
     private final TestStepRepository testStepRepository;
+    private final TestCaseVersionRepository testCaseVersionRepository;
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     public TestCaseService(
             ProjectRepository projectRepository,
             TestFolderRepository testFolderRepository,
             TestCaseRepository testCaseRepository,
             TestStepRepository testStepRepository,
-            UserService userService) {
+            TestCaseVersionRepository testCaseVersionRepository,
+            UserService userService,
+            ObjectMapper objectMapper) {
         this.projectRepository = projectRepository;
         this.testFolderRepository = testFolderRepository;
         this.testCaseRepository = testCaseRepository;
         this.testStepRepository = testStepRepository;
+        this.testCaseVersionRepository = testCaseVersionRepository;
         this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @Transactional
@@ -69,20 +80,86 @@ public class TestCaseService {
         testCase.setOwnerId(user.getId());
         TestCase saved = testCaseRepository.save(testCase);
 
-        List<CreateTestStepRequest> stepRequests = request.steps() != null ? request.steps() : List.of();
-        List<TestStepDto> stepDtos = new ArrayList<>();
-        for (int i = 0; i < stepRequests.size(); i++) {
-            CreateTestStepRequest stepRequest = stepRequests.get(i);
-            TestStep step = new TestStep();
-            step.setTestCaseId(saved.getId());
-            step.setStepNumber(i + 1);
-            step.setAction(stepRequest.action());
-            step.setTestData(stepRequest.testData());
-            step.setExpectedResult(stepRequest.expectedResult());
-            stepDtos.add(TestCaseMapper.toDto(testStepRepository.save(step)));
+        List<TestStepDto> stepDtos = createSteps(saved.getId(), request.steps());
+
+        return TestCaseMapper.toDto(saved, stepDtos);
+    }
+
+    @Transactional
+    public TestCaseDto update(Jwt jwt, UUID projectId, UUID id, UpdateTestCaseRequest request) {
+        UUID organizationId = userService.resolveOrProvisionUser(jwt).getOrganizationId();
+        Project project = projectRepository
+                .findByIdAndOrganizationId(projectId, organizationId)
+                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
+
+        TestCase testCase = testCaseRepository
+                .findByIdAndProjectId(id, project.getId())
+                .orElseThrow(() -> new NotFoundException("Test case not found: " + id));
+
+        if (request.folderId() != null) {
+            testFolderRepository
+                    .findByIdAndProjectId(request.folderId(), project.getId())
+                    .orElseThrow(() -> new NotFoundException("Test folder not found: " + request.folderId()));
+        }
+
+        TestCaseDto preEditState = TestCaseMapper.toDto(testCase, loadSteps(testCase.getId()));
+        long nextVersionNumber = testCaseVersionRepository.countByTestCaseId(testCase.getId()) + 1;
+
+        TestCaseVersion version = new TestCaseVersion();
+        version.setTestCaseId(testCase.getId());
+        version.setVersionNumber((int) nextVersionNumber);
+        version.setSnapshot(objectMapper.writeValueAsString(preEditState));
+        version.setChangeSummary(request.changeSummary());
+        testCaseVersionRepository.save(version);
+
+        if (request.folderId() != null) {
+            testCase.setFolderId(request.folderId());
+        }
+        if (request.title() != null) {
+            testCase.setTitle(request.title());
+        }
+        if (request.priority() != null) {
+            testCase.setPriority(request.priority());
+        }
+        if (request.severity() != null) {
+            testCase.setSeverity(request.severity());
+        }
+        if (request.status() != null) {
+            testCase.setStatus(request.status());
+        }
+        if (request.testType() != null) {
+            testCase.setTestType(request.testType());
+        }
+        if (request.automationStatus() != null) {
+            testCase.setAutomationStatus(request.automationStatus());
+        }
+        TestCase saved = testCaseRepository.save(testCase);
+
+        List<TestStepDto> stepDtos;
+        if (request.steps() != null) {
+            testStepRepository.deleteByTestCaseId(saved.getId());
+            testStepRepository.flush();
+            stepDtos = createSteps(saved.getId(), request.steps());
+        } else {
+            stepDtos = loadSteps(saved.getId());
         }
 
         return TestCaseMapper.toDto(saved, stepDtos);
+    }
+
+    public List<TestCaseVersionDto> listVersions(Jwt jwt, UUID projectId, UUID id) {
+        UUID organizationId = userService.resolveOrProvisionUser(jwt).getOrganizationId();
+        Project project = projectRepository
+                .findByIdAndOrganizationId(projectId, organizationId)
+                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
+
+        testCaseRepository
+                .findByIdAndProjectId(id, project.getId())
+                .orElseThrow(() -> new NotFoundException("Test case not found: " + id));
+
+        return testCaseVersionRepository.findByTestCaseIdOrderByVersionNumberAsc(id).stream()
+                .map(TestCaseMapper::toDto)
+                .toList();
     }
 
     public TestCaseDto getById(Jwt jwt, UUID projectId, UUID id) {
@@ -113,5 +190,21 @@ public class TestCaseService {
         return testStepRepository.findByTestCaseIdOrderByStepNumberAsc(testCaseId).stream()
                 .map(TestCaseMapper::toDto)
                 .toList();
+    }
+
+    private List<TestStepDto> createSteps(UUID testCaseId, List<CreateTestStepRequest> requestedSteps) {
+        List<CreateTestStepRequest> stepRequests = requestedSteps != null ? requestedSteps : List.of();
+        List<TestStepDto> stepDtos = new ArrayList<>();
+        for (int i = 0; i < stepRequests.size(); i++) {
+            CreateTestStepRequest stepRequest = stepRequests.get(i);
+            TestStep step = new TestStep();
+            step.setTestCaseId(testCaseId);
+            step.setStepNumber(i + 1);
+            step.setAction(stepRequest.action());
+            step.setTestData(stepRequest.testData());
+            step.setExpectedResult(stepRequest.expectedResult());
+            stepDtos.add(TestCaseMapper.toDto(testStepRepository.save(step)));
+        }
+        return stepDtos;
     }
 }

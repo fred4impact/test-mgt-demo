@@ -1,14 +1,25 @@
 package com.testmgmt.platform.testcase.mapper;
 
 import com.testmgmt.platform.testcase.dto.TestCaseDto;
+import com.testmgmt.platform.testcase.dto.TestCaseVersionDto;
 import com.testmgmt.platform.testcase.dto.TestStepDto;
 import com.testmgmt.platform.testcase.entity.TestCase;
+import com.testmgmt.platform.testcase.entity.TestCaseVersion;
 import com.testmgmt.platform.testcase.entity.TestStep;
 import java.util.List;
 
 public final class TestCaseMapper {
 
     private TestCaseMapper() {}
+
+    public static TestCaseVersionDto toDto(TestCaseVersion version) {
+        return new TestCaseVersionDto(
+                version.getId(),
+                version.getVersionNumber(),
+                version.getSnapshot(),
+                version.getChangeSummary(),
+                version.getCreatedAt());
+    }
 
     public static TestStepDto toDto(TestStep step) {
         return new TestStepDto(

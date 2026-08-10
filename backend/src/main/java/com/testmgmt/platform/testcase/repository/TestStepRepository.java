@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TestStepRepository extends JpaRepository<TestStep, UUID> {
 
     List<TestStep> findByTestCaseIdOrderByStepNumberAsc(UUID testCaseId);
+
+    void deleteByTestCaseId(UUID testCaseId);
 }
