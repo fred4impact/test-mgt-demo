@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listProjects } from "@/services/projects";
@@ -21,7 +22,10 @@ export default async function NewProjectPage() {
       <ul className="space-y-1">
         {projects.map((project) => (
           <li key={project.id} className="text-sm">
-            {project.name} <span className="text-gray-400">({project.key})</span>
+            {project.name} <span className="text-gray-400">({project.key})</span>{" "}
+            <Link href={`/projects/${project.id}/requirements`} className="text-blue-600 hover:underline">
+              Requirements
+            </Link>
           </li>
         ))}
         {projects.length === 0 && <li className="text-sm text-gray-400">None yet.</li>}

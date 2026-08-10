@@ -74,7 +74,7 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 3a. **Teams** - Team + TeamMember, org-scoped CRUD, add/remove members
   - [x] 3b. **Roles & permissions catalog** - seeded Permission catalog, org-scoped Role CRUD, attach/detach permissions to a role
   - [x] 3c. **Project membership & role assignment** - ProjectMember (assign a user to a project with a role); enforcing permissions on endpoints is a separate later concern, not this sub-feature
-- [ ] 4. **Requirements** - create and manage requirements within a project
+- [x] 4. **Requirements** - create and manage requirements within a project
 - [ ] 5. **Test case repository** - folders, test cases, test steps, tags
 - [ ] 6. **Test suites** - group test cases into suites
 - [ ] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
