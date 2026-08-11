@@ -6,19 +6,7 @@ import { listTestCases } from "@/services/testcases";
 import { CreateFolderInlineForm } from "./CreateFolderInlineForm";
 import { CreateTestCaseForm } from "./CreateTestCaseForm";
 import { TestCaseFilterForm } from "./TestCaseFilterForm";
-
-function statusBadgeClasses(status: string) {
-  return status.toUpperCase() === "ACTIVE"
-    ? "bg-status-success-soft text-status-success"
-    : "bg-status-neutral-soft text-status-neutral";
-}
-
-function severityBadgeClasses(severity: string | null) {
-  const normalized = severity?.toUpperCase();
-  if (normalized === "CRITICAL") return "bg-status-danger-soft text-status-danger";
-  if (normalized === "MAJOR") return "bg-status-warning-soft text-status-warning";
-  return "bg-status-neutral-soft text-status-neutral";
-}
+import { statusBadgeClasses, severityBadgeClasses } from "@/lib/badges";
 
 export default async function ProjectTestCasesPage({
   params,

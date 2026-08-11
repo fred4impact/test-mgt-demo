@@ -19,22 +19,31 @@ export default async function ProjectTestSuitesPage({
   const suites = await listTestSuites(session.accessToken, projectId);
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <Link href={`/projects/${projectId}`} className="text-sm text-blue-600 hover:underline">
+    <main className="mx-auto max-w-6xl px-12 py-10">
+      <Link href={`/projects/${projectId}`} className="text-sm font-semibold text-muted hover:text-accent">
         &larr; Back to project
       </Link>
-      <h1 className="mb-4 mt-4 text-xl font-semibold">Test suites</h1>
+
+      <div className="mb-6 mt-4 flex items-center gap-3">
+        <h1 className="text-3xl font-extrabold tracking-tight text-text">Test Suites</h1>
+        <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-xs font-bold text-muted">
+          {suites.length}
+        </span>
+      </div>
+
       <CreateTestSuiteForm projectId={projectId} />
 
-      <h2 className="mb-2 mt-8 text-sm font-medium text-gray-500">Existing suites</h2>
-      <ul className="space-y-1">
+      <div className="mt-6 grid grid-cols-4 gap-5">
         {suites.map((suite) => (
-          <li key={suite.id} className="text-sm">
-            {suite.name}
-          </li>
+          <div
+            key={suite.id}
+            className="rounded-xl border border-border bg-surface p-6 shadow-card"
+          >
+            <h3 className="text-lg font-bold text-text">{suite.name}</h3>
+          </div>
         ))}
-        {suites.length === 0 && <li className="text-sm text-gray-400">None yet.</li>}
-      </ul>
+        {suites.length === 0 && <p className="text-sm text-faint">None yet.</p>}
+      </div>
     </main>
   );
 }
