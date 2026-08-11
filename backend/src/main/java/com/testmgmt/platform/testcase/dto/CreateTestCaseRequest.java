@@ -13,4 +13,5 @@ public record CreateTestCaseRequest(
         String severity,
         String testType,
         String automationStatus,
+        UUID releaseId,
         @Valid List<CreateTestStepRequest> steps) {}

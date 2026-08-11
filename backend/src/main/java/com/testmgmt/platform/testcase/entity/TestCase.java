@@ -47,6 +47,9 @@ public class TestCase {
     @Column(name = "owner_id", nullable = false)
     private UUID ownerId;
 
+    @Column(name = "release_id")
+    private UUID releaseId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -147,6 +150,14 @@ public class TestCase {
 
     public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public UUID getReleaseId() {
+        return releaseId;
+    }
+
+    public void setReleaseId(UUID releaseId) {
+        this.releaseId = releaseId;
     }
 
     public Instant getCreatedAt() {

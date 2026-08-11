@@ -18,6 +18,7 @@ import com.testmgmt.platform.testcase.repository.TestCaseVersionRepository;
 import com.testmgmt.platform.testcase.repository.TestStepRepository;
 import com.testmgmt.platform.testcase.specification.TestCaseSpecifications;
 import com.testmgmt.platform.testfolder.repository.TestFolderRepository;
+import com.testmgmt.platform.release.repository.ReleaseRepository;
 import com.testmgmt.platform.user.entity.User;
 import com.testmgmt.platform.user.service.UserService;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class TestCaseService {
 
     private final ProjectRepository projectRepository;
     private final TestFolderRepository testFolderRepository;
+    private final ReleaseRepository releaseRepository;
     private final TestCaseRepository testCaseRepository;
     private final TestStepRepository testStepRepository;
     private final TestCaseVersionRepository testCaseVersionRepository;
@@ -43,6 +45,7 @@ public class TestCaseService {
     public TestCaseService(
             ProjectRepository projectRepository,
             TestFolderRepository testFolderRepository,
+            ReleaseRepository releaseRepository,
             TestCaseRepository testCaseRepository,
             TestStepRepository testStepRepository,
             TestCaseVersionRepository testCaseVersionRepository,
@@ -50,6 +53,7 @@ public class TestCaseService {
             ObjectMapper objectMapper) {
         this.projectRepository = projectRepository;
         this.testFolderRepository = testFolderRepository;
+        this.releaseRepository = releaseRepository;
         this.testCaseRepository = testCaseRepository;
         this.testStepRepository = testStepRepository;
         this.testCaseVersionRepository = testCaseVersionRepository;
@@ -68,6 +72,12 @@ public class TestCaseService {
                 .findByIdAndProjectId(request.folderId(), project.getId())
                 .orElseThrow(() -> new NotFoundException("Test folder not found: " + request.folderId()));
 
+        if (request.releaseId() != null) {
+            releaseRepository
+                    .findByIdAndProjectId(request.releaseId(), project.getId())
+                    .orElseThrow(() -> new NotFoundException("Release not found: " + request.releaseId()));
+        }
+
         long nextNumber = testCaseRepository.countByProjectId(project.getId()) + 1;
 
         TestCase testCase = new TestCase();
@@ -80,6 +90,7 @@ public class TestCaseService {
         testCase.setTestType(request.testType());
         testCase.setAutomationStatus(request.automationStatus());
         testCase.setOwnerId(user.getId());
+        testCase.setReleaseId(request.releaseId());
         TestCase saved = testCaseRepository.save(testCase);
 
         List<TestStepDto> stepDtos = createSteps(saved.getId(), request.steps());
@@ -102,6 +113,11 @@ public class TestCaseService {
             testFolderRepository
                     .findByIdAndProjectId(request.folderId(), project.getId())
                     .orElseThrow(() -> new NotFoundException("Test folder not found: " + request.folderId()));
+        }
+        if (request.releaseId() != null) {
+            releaseRepository
+                    .findByIdAndProjectId(request.releaseId(), project.getId())
+                    .orElseThrow(() -> new NotFoundException("Release not found: " + request.releaseId()));
         }
 
         TestCaseDto preEditState = TestCaseMapper.toDto(testCase, loadSteps(testCase.getId()));
@@ -134,6 +150,9 @@ public class TestCaseService {
         }
         if (request.automationStatus() != null) {
             testCase.setAutomationStatus(request.automationStatus());
+        }
+        if (request.releaseId() != null) {
+            testCase.setReleaseId(request.releaseId());
         }
         TestCase saved = testCaseRepository.save(testCase);
 

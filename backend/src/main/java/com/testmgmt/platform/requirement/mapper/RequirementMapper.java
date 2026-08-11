@@ -16,6 +16,7 @@ public final class RequirementMapper {
                 requirement.getStatus(),
                 requirement.getPriority(),
                 requirement.getOwnerId(),
+                requirement.getReleaseId(),
                 requirement.getCreatedAt());
     }
 }

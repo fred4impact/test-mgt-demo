@@ -39,6 +39,7 @@ public final class TestCaseMapper {
                 testCase.getTestType(),
                 testCase.getAutomationStatus(),
                 testCase.getOwnerId(),
+                testCase.getReleaseId(),
                 testCase.getCreatedAt(),
                 steps);
     }

@@ -1,4 +1,4 @@
-package com.testmgmt.platform.requirement.entity;
+package com.testmgmt.platform.release.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,11 +9,12 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "requirements")
-public class Requirement {
+@Table(name = "releases")
+public class Release {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,21 +24,18 @@ public class Requirement {
     private UUID projectId;
 
     @Column(nullable = false)
-    private String key;
+    private String name;
+
+    private String version;
 
     @Column(nullable = false)
-    private String title;
+    private String status = "PLANNED";
 
-    @Column(nullable = false)
-    private String status = "ACTIVE";
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    private String priority;
-
-    @Column(name = "owner_id", nullable = false)
-    private UUID ownerId;
-
-    @Column(name = "release_id")
-    private UUID releaseId;
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -69,20 +67,20 @@ public class Requirement {
         this.projectId = projectId;
     }
 
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getVersion() {
+        return version;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getStatus() {
@@ -93,28 +91,20 @@ public class Requirement {
         this.status = status;
     }
 
-    public String getPriority() {
-        return priority;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setPriority(String priority) {
-        this.priority = priority;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public UUID getOwnerId() {
-        return ownerId;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setOwnerId(UUID ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public UUID getReleaseId() {
-        return releaseId;
-    }
-
-    public void setReleaseId(UUID releaseId) {
-        this.releaseId = releaseId;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Instant getCreatedAt() {

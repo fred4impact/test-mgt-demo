@@ -11,4 +11,5 @@ public record RequirementDto(
         String status,
         String priority,
         UUID ownerId,
+        UUID releaseId,
         Instant createdAt) {}

@@ -12,5 +12,6 @@ public record UpdateTestCaseRequest(
         String status,
         String testType,
         String automationStatus,
+        UUID releaseId,
         @Valid List<CreateTestStepRequest> steps,
         String changeSummary) {}

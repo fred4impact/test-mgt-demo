@@ -16,5 +16,6 @@ public record TestCaseDto(
         String testType,
         String automationStatus,
         UUID ownerId,
+        UUID releaseId,
         Instant createdAt,
         List<TestStepDto> steps) {}

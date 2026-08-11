@@ -9,6 +9,7 @@ import com.testmgmt.platform.requirement.entity.Requirement;
 import com.testmgmt.platform.requirement.mapper.RequirementMapper;
 import com.testmgmt.platform.requirement.repository.RequirementRepository;
 import com.testmgmt.platform.requirement.specification.RequirementSpecifications;
+import com.testmgmt.platform.release.repository.ReleaseRepository;
 import com.testmgmt.platform.user.entity.User;
 import com.testmgmt.platform.user.service.UserService;
 import java.util.List;
@@ -22,14 +23,17 @@ public class RequirementService {
 
     private final ProjectRepository projectRepository;
     private final RequirementRepository requirementRepository;
+    private final ReleaseRepository releaseRepository;
     private final UserService userService;
 
     public RequirementService(
             ProjectRepository projectRepository,
             RequirementRepository requirementRepository,
+            ReleaseRepository releaseRepository,
             UserService userService) {
         this.projectRepository = projectRepository;
         this.requirementRepository = requirementRepository;
+        this.releaseRepository = releaseRepository;
         this.userService = userService;
     }
 
@@ -38,6 +42,12 @@ public class RequirementService {
         Project project = projectRepository
                 .findByIdAndOrganizationId(projectId, user.getOrganizationId())
                 .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
+
+        if (request.releaseId() != null) {
+            releaseRepository
+                    .findByIdAndProjectId(request.releaseId(), project.getId())
+                    .orElseThrow(() -> new NotFoundException("Release not found: " + request.releaseId()));
+        }
 
         long nextNumber = requirementRepository.countByProjectId(project.getId()) + 1;
 
@@ -50,6 +60,7 @@ public class RequirementService {
         }
         requirement.setPriority(request.priority());
         requirement.setOwnerId(user.getId());
+        requirement.setReleaseId(request.releaseId());
 
         return RequirementMapper.toDto(requirementRepository.save(requirement));
     }
