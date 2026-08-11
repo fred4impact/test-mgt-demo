@@ -16,7 +16,7 @@ export default async function ProjectRequirementsPage({
   const { q, status, priority } = await searchParams;
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect(`/api/auth/signin?callbackUrl=/projects/${projectId}/requirements`);
   }
 

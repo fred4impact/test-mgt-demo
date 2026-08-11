@@ -26,7 +26,7 @@ export default async function ProjectTestCasesPage({
   const filters = await searchParams;
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect(`/api/auth/signin?callbackUrl=/projects/${projectId}/test-cases`);
   }
 

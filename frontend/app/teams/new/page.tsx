@@ -6,7 +6,7 @@ import { CreateTeamForm } from "./CreateTeamForm";
 export default async function NewTeamPage() {
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect("/api/auth/signin?callbackUrl=/teams/new");
   }
 

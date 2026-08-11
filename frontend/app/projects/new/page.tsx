@@ -7,7 +7,7 @@ import { CreateProjectForm } from "./CreateProjectForm";
 export default async function NewProjectPage() {
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect("/api/auth/signin?callbackUrl=/projects/new");
   }
 

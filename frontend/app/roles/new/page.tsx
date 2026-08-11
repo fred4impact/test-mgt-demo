@@ -6,7 +6,7 @@ import { CreateRoleForm } from "./CreateRoleForm";
 export default async function NewRolePage() {
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect("/api/auth/signin?callbackUrl=/roles/new");
   }
 

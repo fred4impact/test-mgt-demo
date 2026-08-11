@@ -7,7 +7,7 @@ import { listProjects } from "@/services/projects";
 export default async function OrgHomePage() {
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect("/api/auth/signin?callbackUrl=/home");
   }
 

@@ -13,7 +13,7 @@ export default async function ProjectTestPlansPage({
   const { projectId } = await params;
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect(`/api/auth/signin?callbackUrl=/projects/${projectId}/test-plans`);
   }
 

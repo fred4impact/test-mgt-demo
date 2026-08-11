@@ -5,7 +5,7 @@ import { fetchMe } from "@/services/me";
 export default async function ProfilePage() {
   const session = await auth();
 
-  if (!session?.accessToken) {
+  if (!session?.accessToken || session.error) {
     redirect("/api/auth/signin?callbackUrl=/profile");
   }
 
