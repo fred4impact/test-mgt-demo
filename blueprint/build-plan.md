@@ -81,7 +81,7 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 5c. **Test case editing & version history** - update a test case (title/steps/status/etc.), snapshotting the prior state into TestCaseVersion before applying changes
   - [x] 5d. **Tags** - project-scoped Tag catalog + TestCaseTag, attach/detach tags to a test case
 - [x] 6. **Test suites** - group test cases into suites
-- [ ] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
+- [x] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
 - [ ] 8. **Releases, builds & environments** - create and manage each
 - [ ] 9. **Test plans** - create test plans scoped to a release
 - [ ] 10. **Test cycles** - create cycles under a plan, assign build/environment

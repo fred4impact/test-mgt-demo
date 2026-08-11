@@ -16,12 +16,14 @@ import com.testmgmt.platform.testcase.mapper.TestCaseMapper;
 import com.testmgmt.platform.testcase.repository.TestCaseRepository;
 import com.testmgmt.platform.testcase.repository.TestCaseVersionRepository;
 import com.testmgmt.platform.testcase.repository.TestStepRepository;
+import com.testmgmt.platform.testcase.specification.TestCaseSpecifications;
 import com.testmgmt.platform.testfolder.repository.TestFolderRepository;
 import com.testmgmt.platform.user.entity.User;
 import com.testmgmt.platform.user.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -175,13 +177,27 @@ public class TestCaseService {
         return TestCaseMapper.toDto(testCase, loadSteps(testCase.getId()));
     }
 
-    public List<TestCaseDto> list(Jwt jwt, UUID projectId) {
+    public List<TestCaseDto> list(
+            Jwt jwt,
+            UUID projectId,
+            String q,
+            String status,
+            String priority,
+            String severity,
+            String testType,
+            String automationStatus,
+            UUID folderId) {
         UUID organizationId = userService.resolveOrProvisionUser(jwt).getOrganizationId();
         Project project = projectRepository
                 .findByIdAndOrganizationId(projectId, organizationId)
                 .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
 
-        return testCaseRepository.findByProjectIdOrderByCreatedAtAsc(project.getId()).stream()
+        return testCaseRepository
+                .findAll(
+                        TestCaseSpecifications.search(
+                                project.getId(), q, status, priority, severity, testType, automationStatus, folderId),
+                        Sort.by("createdAt").ascending())
+                .stream()
                 .map(testCase -> TestCaseMapper.toDto(testCase, loadSteps(testCase.getId())))
                 .toList();
     }

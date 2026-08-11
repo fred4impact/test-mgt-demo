@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -54,8 +55,17 @@ public class TestCaseController {
     }
 
     @GetMapping
-    public List<TestCaseDto> list(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID projectId) {
-        return testCaseService.list(jwt, projectId);
+    public List<TestCaseDto> list(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID projectId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String priority,
+            @RequestParam(required = false) String severity,
+            @RequestParam(required = false) String testType,
+            @RequestParam(required = false) String automationStatus,
+            @RequestParam(required = false) UUID folderId) {
+        return testCaseService.list(jwt, projectId, q, status, priority, severity, testType, automationStatus, folderId);
     }
 
     @PutMapping("/{id}")

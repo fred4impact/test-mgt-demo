@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -44,7 +45,12 @@ public class RequirementController {
     }
 
     @GetMapping
-    public List<RequirementDto> list(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID projectId) {
-        return requirementService.list(jwt, projectId);
+    public List<RequirementDto> list(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID projectId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String priority) {
+        return requirementService.list(jwt, projectId, q, status, priority);
     }
 }

@@ -30,8 +30,32 @@ export interface CreateTestStepInput {
   expectedResult?: string;
 }
 
-export async function listTestCases(accessToken: string, projectId: string): Promise<TestCase[]> {
-  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/test-cases`, {
+export interface TestCaseFilters {
+  q?: string;
+  status?: string;
+  priority?: string;
+  severity?: string;
+  testType?: string;
+  automationStatus?: string;
+  folderId?: string;
+}
+
+export async function listTestCases(
+  accessToken: string,
+  projectId: string,
+  filters: TestCaseFilters = {},
+): Promise<TestCase[]> {
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.status) params.set("status", filters.status);
+  if (filters.priority) params.set("priority", filters.priority);
+  if (filters.severity) params.set("severity", filters.severity);
+  if (filters.testType) params.set("testType", filters.testType);
+  if (filters.automationStatus) params.set("automationStatus", filters.automationStatus);
+  if (filters.folderId) params.set("folderId", filters.folderId);
+  const query = params.toString();
+
+  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/test-cases${query ? `?${query}` : ""}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
     cache: "no-store",
   });

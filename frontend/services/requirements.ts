@@ -11,8 +11,24 @@ export interface Requirement {
   createdAt: string;
 }
 
-export async function listRequirements(accessToken: string, projectId: string): Promise<Requirement[]> {
-  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/requirements`, {
+export interface RequirementFilters {
+  q?: string;
+  status?: string;
+  priority?: string;
+}
+
+export async function listRequirements(
+  accessToken: string,
+  projectId: string,
+  filters: RequirementFilters = {},
+): Promise<Requirement[]> {
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.status) params.set("status", filters.status);
+  if (filters.priority) params.set("priority", filters.priority);
+  const query = params.toString();
+
+  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/requirements${query ? `?${query}` : ""}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
     cache: "no-store",
   });
