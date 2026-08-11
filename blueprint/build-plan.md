@@ -84,7 +84,7 @@ cleaned-up checkbox version before generating the project overview.
 - [x] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
 - [ ] 8. **Releases, builds & environments** - create and manage each
   - [x] 8a. **Releases** - Release CRUD, plus the releaseId retrofit onto Requirement and TestCase promised by features 4 and 5b
-  - [ ] 8b. **Builds** - Build CRUD (references a Release)
+  - [x] 8b. **Builds** - Build CRUD (references a Release)
   - [ ] 8c. **Environments** - Environment CRUD (standalone, no Release reference)
 - [ ] 9. **Test plans** - create test plans scoped to a release
 - [ ] 10. **Test cycles** - create cycles under a plan, assign build/environment

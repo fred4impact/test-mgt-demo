@@ -9,6 +9,7 @@ const SECTIONS = [
   { href: "test-suites", label: "Test Suites" },
   { href: "tags", label: "Tags" },
   { href: "releases", label: "Releases" },
+  { href: "builds", label: "Builds" },
 ];
 
 export default async function ProjectHubPage({
