@@ -6,8 +6,8 @@ export async function AppNav() {
 
   if (!session?.accessToken) {
     return (
-      <nav className="flex w-full justify-end gap-4 border-b border-gray-200 px-8 py-3 text-sm">
-        <Link href="/api/auth/signin?callbackUrl=/home" className="text-gray-600 hover:underline">
+      <nav className="flex w-full justify-end bg-surface px-12 py-4 text-sm shadow-nav">
+        <Link href="/api/auth/signin?callbackUrl=/home" className="font-semibold text-muted hover:text-accent">
           Sign in
         </Link>
       </nav>
@@ -15,18 +15,18 @@ export async function AppNav() {
   }
 
   return (
-    <nav className="flex w-full items-center justify-between border-b border-gray-200 px-8 py-3 text-sm">
-      <Link href="/home" className="font-semibold text-black">
-        Test Management Platform
+    <nav className="flex w-full items-center justify-between bg-surface px-12 py-4 text-sm shadow-nav">
+      <Link href="/home" className="text-base font-extrabold tracking-tight text-text">
+        Test<span className="text-accent">MGMT</span>
       </Link>
-      <div className="flex items-center gap-4">
-        <Link href="/teams/new" className="text-gray-600 hover:underline">
+      <div className="flex items-center gap-7">
+        <Link href="/teams/new" className="font-semibold text-muted hover:text-accent">
           Teams
         </Link>
-        <Link href="/roles/new" className="text-gray-600 hover:underline">
+        <Link href="/roles/new" className="font-semibold text-muted hover:text-accent">
           Roles
         </Link>
-        <Link href="/profile" className="text-gray-600 hover:underline">
+        <Link href="/profile" className="font-semibold text-muted hover:text-accent">
           Profile
         </Link>
         <form
@@ -35,7 +35,7 @@ export async function AppNav() {
             await signOut({ redirectTo: "/" });
           }}
         >
-          <button type="submit" className="text-gray-600 hover:underline">
+          <button type="submit" className="font-semibold text-muted hover:text-accent">
             Sign out
           </button>
         </form>

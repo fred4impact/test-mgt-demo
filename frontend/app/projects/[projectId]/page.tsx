@@ -4,13 +4,13 @@ import { auth } from "@/auth";
 import { getProject, type Project } from "@/services/projects";
 
 const SECTIONS = [
-  { href: "requirements", label: "Requirements" },
-  { href: "test-cases", label: "Test Cases" },
-  { href: "test-suites", label: "Test Suites" },
-  { href: "tags", label: "Tags" },
-  { href: "releases", label: "Releases" },
-  { href: "builds", label: "Builds" },
-  { href: "test-plans", label: "Test Plans" },
+  { href: "requirements", label: "Requirements", icon: "R" },
+  { href: "test-cases", label: "Test Cases", icon: "TC" },
+  { href: "test-suites", label: "Test Suites", icon: "TS" },
+  { href: "tags", label: "Tags", icon: "Tg" },
+  { href: "releases", label: "Releases", icon: "Rl" },
+  { href: "builds", label: "Builds", icon: "Bd" },
+  { href: "test-plans", label: "Test Plans", icon: "Pl" },
 ];
 
 export default async function ProjectHubPage({
@@ -31,37 +31,44 @@ export default async function ProjectHubPage({
   } catch {
     return (
       <main className="mx-auto max-w-md p-8">
-        <Link href="/home" className="text-sm text-blue-600 hover:underline">
+        <Link href="/home" className="text-sm font-semibold text-muted hover:text-accent">
           &larr; Back to organization
         </Link>
-        <p className="mt-4 text-sm text-gray-500">Project not found.</p>
+        <p className="mt-4 text-sm text-faint">Project not found.</p>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <Link href="/home" className="text-sm text-blue-600 hover:underline">
+    <main className="mx-auto max-w-5xl px-12 py-10">
+      <Link href="/home" className="text-sm font-semibold text-muted hover:text-accent">
         &larr; Back to organization
       </Link>
 
-      <h1 className="mb-1 mt-4 text-xl font-semibold">{project.name}</h1>
-      <p className="mb-6 text-sm text-gray-500">
-        {project.key} <span className="text-gray-400">({project.status})</span>
-      </p>
+      <div className="mb-10 mt-6">
+        <h1 className="mb-1 text-3xl font-extrabold tracking-tight text-text">{project.name}</h1>
+        <div className="flex items-center gap-2">
+          <span className="rounded bg-surface-sunken px-2 py-0.5 font-mono text-xs text-text">{project.key}</span>
+          <span className="rounded-full bg-status-neutral-soft px-2.5 py-0.5 text-xs font-bold text-status-neutral">
+            {project.status}
+          </span>
+        </div>
+      </div>
 
-      <ul className="space-y-2">
+      <div className="grid grid-cols-4 gap-5">
         {SECTIONS.map((section) => (
-          <li key={section.href} className="rounded border border-gray-200 p-3 text-sm">
-            <Link
-              href={`/projects/${projectId}/${section.href}`}
-              className="font-medium text-blue-600 hover:underline"
-            >
-              {section.label}
-            </Link>
-          </li>
+          <Link
+            key={section.href}
+            href={`/projects/${projectId}/${section.href}`}
+            className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-6 shadow-card transition hover:-translate-y-0.5 hover:border-accent"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-sm font-extrabold text-accent">
+              {section.icon}
+            </span>
+            <h3 className="text-lg font-bold text-text">{section.label}</h3>
+          </Link>
         ))}
-      </ul>
+      </div>
     </main>
   );
 }

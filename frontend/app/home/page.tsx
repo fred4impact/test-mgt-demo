@@ -17,27 +17,29 @@ export default async function OrgHomePage() {
   ]);
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-1 text-xl font-semibold">{me.organizationName}</h1>
-      <p className="mb-6 text-sm text-gray-500">Your organization's projects</p>
+    <main className="mx-auto max-w-5xl px-12 py-10">
+      <h1 className="mb-1 text-3xl font-extrabold tracking-tight text-text">{me.organizationName}</h1>
+      <p className="mb-8 text-muted">Your organization&apos;s projects</p>
 
-      <div className="mb-4">
-        <Link href="/projects/new" className="text-sm text-blue-600 hover:underline">
+      <div className="mb-6">
+        <Link href="/projects/new" className="text-sm font-semibold text-accent hover:text-accent-hover">
           + Create project
         </Link>
       </div>
 
-      <ul className="space-y-2">
+      <div className="grid grid-cols-3 gap-5">
         {projects.map((project) => (
-          <li key={project.id} className="rounded border border-gray-200 p-3 text-sm">
-            <Link href={`/projects/${project.id}`} className="font-medium text-blue-600 hover:underline">
-              {project.name}
-            </Link>{" "}
-            <span className="text-gray-400">({project.key})</span>
-          </li>
+          <Link
+            key={project.id}
+            href={`/projects/${project.id}`}
+            className="flex flex-col gap-2 rounded-xl border border-border bg-surface p-6 shadow-card transition hover:-translate-y-0.5 hover:border-accent"
+          >
+            <h3 className="text-lg font-bold text-text">{project.name}</h3>
+            <span className="font-mono text-xs text-muted">{project.key}</span>
+          </Link>
         ))}
-        {projects.length === 0 && <li className="text-sm text-gray-400">No projects yet.</li>}
-      </ul>
+        {projects.length === 0 && <p className="text-sm text-faint">No projects yet.</p>}
+      </div>
     </main>
   );
 }

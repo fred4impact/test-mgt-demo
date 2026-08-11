@@ -7,6 +7,19 @@ import { CreateFolderInlineForm } from "./CreateFolderInlineForm";
 import { CreateTestCaseForm } from "./CreateTestCaseForm";
 import { TestCaseFilterForm } from "./TestCaseFilterForm";
 
+function statusBadgeClasses(status: string) {
+  return status.toUpperCase() === "ACTIVE"
+    ? "bg-status-success-soft text-status-success"
+    : "bg-status-neutral-soft text-status-neutral";
+}
+
+function severityBadgeClasses(severity: string | null) {
+  const normalized = severity?.toUpperCase();
+  if (normalized === "CRITICAL") return "bg-status-danger-soft text-status-danger";
+  if (normalized === "MAJOR") return "bg-status-warning-soft text-status-warning";
+  return "bg-status-neutral-soft text-status-neutral";
+}
+
 export default async function ProjectTestCasesPage({
   params,
   searchParams,
@@ -34,13 +47,20 @@ export default async function ProjectTestCasesPage({
     listTestFolders(session.accessToken, projectId),
     listTestCases(session.accessToken, projectId, filters),
   ]);
+  const folderNameById = new Map(folders.map((folder) => [folder.id, folder.name]));
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <Link href={`/projects/${projectId}`} className="text-sm text-blue-600 hover:underline">
+    <main className="mx-auto max-w-6xl px-12 py-10">
+      <Link href={`/projects/${projectId}`} className="text-sm font-semibold text-muted hover:text-accent">
         &larr; Back to project
       </Link>
-      <h1 className="mb-4 mt-4 text-xl font-semibold">Test cases</h1>
+
+      <div className="mb-6 mt-4 flex items-center gap-3">
+        <h1 className="text-3xl font-extrabold tracking-tight text-text">Test Cases</h1>
+        <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-xs font-bold text-muted">
+          {testCases.length}
+        </span>
+      </div>
 
       {folders.length === 0 ? (
         <CreateFolderInlineForm projectId={projectId} />
@@ -48,19 +68,65 @@ export default async function ProjectTestCasesPage({
         <CreateTestCaseForm projectId={projectId} folders={folders} />
       )}
 
-      <h2 className="mb-2 mt-8 text-sm font-medium text-gray-500">Search &amp; filter</h2>
-      <TestCaseFilterForm filters={filters} folders={folders} />
+      <div className="mt-8">
+        <TestCaseFilterForm filters={filters} folders={folders} />
+      </div>
 
-      <h2 className="mb-2 mt-8 text-sm font-medium text-gray-500">Existing test cases</h2>
-      <ul className="space-y-1">
-        {testCases.map((testCase) => (
-          <li key={testCase.id} className="text-sm">
-            <span className="text-gray-400">{testCase.key}</span> {testCase.title}{" "}
-            <span className="text-gray-400">({testCase.steps.length} steps)</span>
-          </li>
-        ))}
-        {testCases.length === 0 && <li className="text-sm text-gray-400">None found.</li>}
-      </ul>
+      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-surface shadow-card">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-surface-sunken text-left text-xs font-bold uppercase tracking-wide text-muted">
+              <th className="px-4 py-2.5">Key</th>
+              <th className="px-4 py-2.5">Title</th>
+              <th className="px-4 py-2.5">Folder</th>
+              <th className="px-4 py-2.5">Status</th>
+              <th className="px-4 py-2.5">Priority</th>
+              <th className="px-4 py-2.5">Severity</th>
+              <th className="px-4 py-2.5">Steps</th>
+            </tr>
+          </thead>
+          <tbody>
+            {testCases.map((testCase) => (
+              <tr key={testCase.id} className="border-t border-border hover:bg-surface-sunken">
+                <td className="px-4 py-2.5 font-mono text-xs text-muted">{testCase.key}</td>
+                <td className="px-4 py-2.5 font-semibold text-text">{testCase.title}</td>
+                <td className="px-4 py-2.5 text-muted">{folderNameById.get(testCase.folderId) ?? "-"}</td>
+                <td className="px-4 py-2.5">
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${statusBadgeClasses(testCase.status)}`}
+                  >
+                    {testCase.status}
+                  </span>
+                </td>
+                <td className="px-4 py-2.5">
+                  {testCase.priority && (
+                    <span className="rounded-full bg-status-neutral-soft px-2.5 py-0.5 text-xs font-bold text-status-neutral">
+                      {testCase.priority}
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-2.5">
+                  {testCase.severity && (
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${severityBadgeClasses(testCase.severity)}`}
+                    >
+                      {testCase.severity}
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-2.5 text-muted">{testCase.steps.length}</td>
+              </tr>
+            ))}
+            {testCases.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-4 py-6 text-center text-faint">
+                  None found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
