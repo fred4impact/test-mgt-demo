@@ -86,7 +86,7 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 8a. **Releases** - Release CRUD, plus the releaseId retrofit onto Requirement and TestCase promised by features 4 and 5b
   - [x] 8b. **Builds** - Build CRUD (references a Release)
   - [ ] 8c. **Environments** - Environment CRUD (standalone, no Release reference)
-- [ ] 9. **Test plans** - create test plans scoped to a release
+- [x] 9. **Test plans** - create test plans scoped to a release
 - [ ] 10. **Test cycles** - create cycles under a plan, assign build/environment
 - [ ] 11. **Test execution** - assign testers, execute steps, record pass/fail/block/skip, attachments
 - [ ] 12. **Defects** - create/edit, link severity/priority/status
