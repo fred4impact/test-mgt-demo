@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Test Management Platform - Project Hub</title>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: var(--surface);
+    box-shadow: var(--shadow-nav);
+  }
+  .brand { font-size: 1.0625rem; font-weight: 800; letter-spacing: -0.01em; text-decoration: none; color: var(--text); }
+  .brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: var(--text-body);
+    font-weight: 600;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.8125rem;
+  }
+
+  main { max-width: var(--container-wide); margin: 0 auto; padding: 40px 48px 96px; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: var(--text-small); color: var(--muted); margin-bottom: 24px;
+  }
+  .breadcrumb a { color: var(--muted); text-decoration: none; font-weight: 600; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .current { color: var(--text); font-weight: 700; }
+
+  .header-row {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  h1 { font-size: var(--text-h1); font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); font-size: var(--text-body); display: flex; align-items: center; gap: 10px; }
+  .key-pill {
+    font-family: var(--font-mono);
+    background: var(--surface-sunken);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--text);
+  }
+  .status-pill {
+    background: var(--status-success-soft); color: var(--status-success);
+    padding: 3px 10px; border-radius: 999px; font-size: 0.6875rem; font-weight: 700;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.12s ease, border-color 0.12s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card .icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+  }
+  .card h3 { font-size: 1.0625rem; font-weight: 700; }
+  .card p { color: var(--muted); font-size: var(--text-small); line-height: 1.5; }
+  .card .count { margin-top: auto; font-size: var(--text-small); font-weight: 700; color: var(--accent); }
+</style>
+</head>
+<body>
+  <nav>
+    <a href="#" class="brand">Test<span>MGMT</span></a>
+    <div class="nav-links">
+      <a href="#">Teams</a>
+      <a href="#">Roles</a>
+      <a href="#">Profile</a>
+      <a href="#">Sign out</a>
+      <div class="avatar">TU</div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="breadcrumb">
+      <a href="#">Acme Corp</a>
+      <span>/</span>
+      <span class="current">ecomms</span>
+    </div>
+
+    <div class="header-row">
+      <div>
+        <h1>ecomms</h1>
+        <div class="subtitle">
+          <span class="key-pill">DEL-APP</span>
+          <span class="status-pill">ACTIVE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <a href="#" class="card">
+        <div class="icon">R</div>
+        <h3>Requirements</h3>
+        <p>Track what needs to be built and tested.</p>
+        <div class="count">18 requirements</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">TC</div>
+        <h3>Test Cases</h3>
+        <p>The repository of test cases and steps.</p>
+        <div class="count">64 test cases</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">TS</div>
+        <h3>Test Suites</h3>
+        <p>Grouped collections of test cases.</p>
+        <div class="count">7 suites</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">Tg</div>
+        <h3>Tags</h3>
+        <p>Cross-cutting labels for filtering.</p>
+        <div class="count">12 tags</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">Rl</div>
+        <h3>Releases</h3>
+        <p>Versions this project ships.</p>
+        <div class="count">3 releases</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">Bd</div>
+        <h3>Builds</h3>
+        <p>CI artifacts tied to a release.</p>
+        <div class="count">9 builds</div>
+      </a>
+      <a href="#" class="card">
+        <div class="icon">Pl</div>
+        <h3>Test Plans</h3>
+        <p>Plans scoped to a release.</p>
+        <div class="count">2 plans</div>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

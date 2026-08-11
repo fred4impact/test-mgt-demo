@@ -1,0 +1,93 @@
+/* Theme variables - the durable output of /prototype.
+   Modern, bold, wide SaaS shell (nav, hub, headers) wrapping tight, dense,
+   functional data-grid tables (test case / requirement lists), per the
+   project plan's "dense, functional, Zephyr/Jira-comparable" requirement.
+   Port this block into frontend/app/globals.css's @theme when building the
+   first UI feature; discard the rest of prototypes/ at that feature's
+   /complete. */
+
+:root {
+  /* surfaces */
+  --bg: #f8fafc;          /* page background - cool near-white */
+  --surface: #ffffff;     /* cards, nav bar, inputs, modals */
+  --surface-sunken: #f1f4f9; /* table header row, subtle panels */
+  --border: #e2e5ec;
+
+  /* text */
+  --text: #0f0e17;        /* primary - near-black, slight cool undertone */
+  --muted: #6b7280;       /* secondary, labels */
+  --faint: #9ca3af;       /* hints, placeholder */
+
+  /* accent - deep indigo/violet */
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-ink: #ffffff;  /* text on accent-filled elements */
+  --accent-soft: #eef2ff; /* accent-tinted background (badges, active nav) */
+  --accent-soft-text: #4338ca;
+
+  /* status - test/requirement badges */
+  --status-success: #16a34a;
+  --status-success-soft: #dcfce7;
+  --status-warning: #d97706;
+  --status-warning-soft: #fef3c7;
+  --status-danger: #dc2626;
+  --status-danger-soft: #fee2e2;
+  --status-neutral: #6b7280;
+  --status-neutral-soft: #f1f4f9;
+
+  /* type */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+
+  --text-hero: 3.25rem;
+  --text-h1: 1.875rem;
+  --text-h2: 1.125rem;
+  --text-body: 0.9375rem;
+  --text-small: 0.8125rem;
+
+  /* scale */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-nav: 0 1px 0 rgba(15, 23, 42, 0.06);
+
+  /* layout widths */
+  --container-wide: 1280px;
+  --container-form: 640px;
+
+  /* density - dense data-grid rows, per the "functional" half of the brief */
+  --row-height: 44px;
+  --row-height-compact: 36px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0c10;
+    --surface: #14161c;
+    --surface-sunken: #1a1d24;
+    --border: #262a33;
+
+    --text: #f3f4f6;
+    --muted: #9aa0ab;
+    --faint: #6b7280;
+
+    --accent: #6366f1;
+    --accent-hover: #818cf8;
+    --accent-ink: #ffffff;
+    --accent-soft: #1e1b4b;
+    --accent-soft-text: #c7d2fe;
+
+    --status-success: #22c55e;
+    --status-success-soft: #14532d;
+    --status-warning: #f59e0b;
+    --status-warning-soft: #451a03;
+    --status-danger: #ef4444;
+    --status-danger-soft: #450a0a;
+    --status-neutral: #9aa0ab;
+    --status-neutral-soft: #1a1d24;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-nav: 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}

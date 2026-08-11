@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Test Management Platform - Landing</title>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: var(--surface);
+    box-shadow: var(--shadow-nav);
+  }
+  .brand { font-size: 1.125rem; font-weight: 800; letter-spacing: -0.01em; }
+  .brand span { color: var(--accent); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: var(--text-body);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); }
+  .btn-accent:hover { background: var(--accent-hover); }
+
+  .hero {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 120px 48px 80px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-soft-text);
+    font-size: var(--text-small);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: var(--text-hero);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede {
+    font-size: 1.125rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .cta-row { display: flex; gap: 16px; align-items: center; }
+  .btn-lg { padding: 14px 28px; font-size: 1rem; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* preview card: hints at the dense-table half of the product */
+  .preview {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .preview-bar {
+    display: flex;
+    gap: 8px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-sunken);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .preview-table { width: 100%; border-collapse: collapse; font-size: var(--text-small); }
+  .preview-table th {
+    text-align: left;
+    padding: 10px 18px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.6875rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    height: var(--row-height-compact);
+  }
+  .preview-table tr:last-child td { border-bottom: none; }
+  .key { font-family: var(--font-mono); color: var(--muted); font-size: 0.75rem; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+  }
+  .badge-success { background: var(--status-success-soft); color: var(--status-success); }
+  .badge-warning { background: var(--status-warning-soft); color: var(--status-warning); }
+  .badge-neutral { background: var(--status-neutral-soft); color: var(--status-neutral); }
+
+  .features {
+    max-width: var(--container-wide);
+    margin: 0 auto;
+    padding: 40px 48px 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .feature h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: 8px; }
+  .feature p { color: var(--muted); font-size: var(--text-body); line-height: 1.55; }
+  .feature .icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="brand">Test<span>MGMT</span></div>
+    <a href="#" class="btn btn-accent">Sign in</a>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">FOR QA TEAMS THAT SHIP</span>
+      <h1>Know what's tested. Know what's <em>ready.</em></h1>
+      <p class="lede">
+        Requirements, test cases, execution, and defects in one place -
+        so a release decision is a fact, not a guess.
+      </p>
+      <div class="cta-row">
+        <a href="#" class="btn btn-accent btn-lg">Sign in</a>
+        <a href="#" class="btn btn-ghost btn-lg">See how it works</a>
+      </div>
+    </div>
+
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <table class="preview-table">
+        <thead>
+          <tr><th>Key</th><th>Title</th><th>Status</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="key">DEL-APP-12</td>
+            <td>Checkout applies promo code</td>
+            <td><span class="badge badge-success">PASSED</span></td>
+            <td><span class="badge badge-neutral">HIGH</span></td>
+          </tr>
+          <tr>
+            <td class="key">DEL-APP-13</td>
+            <td>Guest checkout email validation</td>
+            <td><span class="badge badge-warning">BLOCKED</span></td>
+            <td><span class="badge badge-neutral">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td class="key">DEL-APP-14</td>
+            <td>Refund reflects in order history</td>
+            <td><span class="badge badge-success">PASSED</span></td>
+            <td><span class="badge badge-neutral">HIGH</span></td>
+          </tr>
+          <tr>
+            <td class="key">DEL-APP-15</td>
+            <td>Cart persists across sessions</td>
+            <td><span class="badge badge-neutral">NOT RUN</span></td>
+            <td><span class="badge badge-neutral">LOW</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <div class="icon">R</div>
+      <h3>Requirements to test cases</h3>
+      <p>Trace every requirement to the test cases that cover it - and the executions that proved it.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">E</div>
+      <h3>Execute against real releases</h3>
+      <p>Run cycles against a specific build and environment, not a spreadsheet copy.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">D</div>
+      <h3>One view of release health</h3>
+      <p>Pass rate, coverage, and open defects - the numbers a ship decision actually needs.</p>
+    </div>
+  </section>
+</body>
+</html>
