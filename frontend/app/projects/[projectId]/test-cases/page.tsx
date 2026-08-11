@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listTestFolders } from "@/services/testfolders";
@@ -36,7 +37,10 @@ export default async function ProjectTestCasesPage({
 
   return (
     <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-4 text-xl font-semibold">Test cases</h1>
+      <Link href={`/projects/${projectId}`} className="text-sm text-blue-600 hover:underline">
+        &larr; Back to project
+      </Link>
+      <h1 className="mb-4 mt-4 text-xl font-semibold">Test cases</h1>
 
       {folders.length === 0 ? (
         <CreateFolderInlineForm projectId={projectId} />

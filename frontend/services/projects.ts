@@ -21,6 +21,17 @@ export async function listProjects(accessToken: string): Promise<Project[]> {
   return res.json();
 }
 
+export async function getProject(accessToken: string, id: string): Promise<Project> {
+  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to load project");
+  }
+  return res.json();
+}
+
 export async function createProject(
   accessToken: string,
   input: { key: string; name: string },

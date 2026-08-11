@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listReleases } from "@/services/releases";
@@ -19,7 +20,10 @@ export default async function ProjectReleasesPage({
 
   return (
     <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-4 text-xl font-semibold">Releases</h1>
+      <Link href={`/projects/${projectId}`} className="text-sm text-blue-600 hover:underline">
+        &larr; Back to project
+      </Link>
+      <h1 className="mb-4 mt-4 text-xl font-semibold">Releases</h1>
       <CreateReleaseForm projectId={projectId} />
 
       <h2 className="mb-2 mt-8 text-sm font-medium text-gray-500">Existing releases</h2>

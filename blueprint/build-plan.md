@@ -94,4 +94,6 @@ cleaned-up checkbox version before generating the project overview.
 - [ ] 14. **Reporting dashboard** - execution stats, pass/fail, coverage, defect stats, release progress
 - [ ] 15. **CSV export** - export reports and test data
 - [ ] 16. **Automation result ingestion** - accept JUnit/TestNG/Cucumber/pytest/Playwright/Cypress results, automation dashboard
-- [ ] 17. **Navigation & dashboard** - replace today's flat per-entity pages (Organizations/Projects/Teams/Roles as disconnected islands) with real drill-down: an org home showing its projects, a project detail hub linking to that project's requirements/test cases/members, breadcrumbs. Revisit once enough entities exist that the shape is obvious - placeholder for now, not scoped
+- [ ] 17. **Navigation & dashboard** - replace today's flat per-entity pages (Organizations/Projects/Teams/Roles as disconnected islands) with real drill-down: an org home showing its projects, a project detail hub linking to that project's requirements/test cases/members, breadcrumbs
+  - [x] 17a. **App shell, org home & project hub** - persistent nav shell, real `/home` org landing page (your org + your projects), `/projects/[projectId]` hub page linking into requirements/test cases/test suites/tags/releases, breadcrumbs back out of each
+  - [ ] 17b. **Teams & roles browsing** - real `/teams` and `/roles` listing pages (today only "new" creation forms exist), wired into the nav shell
