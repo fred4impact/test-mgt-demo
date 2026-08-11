@@ -80,7 +80,7 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 5b. **Test cases & steps** - TestCase (in a folder, server-generated key like Requirement's) + TestStep, create/read
   - [x] 5c. **Test case editing & version history** - update a test case (title/steps/status/etc.), snapshotting the prior state into TestCaseVersion before applying changes
   - [x] 5d. **Tags** - project-scoped Tag catalog + TestCaseTag, attach/detach tags to a test case
-- [ ] 6. **Test suites** - group test cases into suites
+- [x] 6. **Test suites** - group test cases into suites
 - [ ] 7. **Search & filters** - keyword search and filtering across test cases/requirements/defects
 - [ ] 8. **Releases, builds & environments** - create and manage each
 - [ ] 9. **Test plans** - create test plans scoped to a release
