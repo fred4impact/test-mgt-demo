@@ -88,6 +88,8 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 8c. **Environments** - Environment CRUD (standalone, no Release reference)
 - [x] 9. **Test plans** - create test plans scoped to a release
 - [ ] 10. **Test cycles** - create cycles under a plan, assign build/environment
+  - [x] 10a. **Test cycles** - TestCycle CRUD (references TestPlan, Release, Build, Environment)
+  - [ ] 10b. **Test cycle case selection** - browse the test case repository (reusing feature 7's filters) and select cases into a cycle, optionally assigning a tester per case
 - [ ] 11. **Test execution** - assign testers, execute steps, record pass/fail/block/skip, attachments
 - [ ] 12. **Defects** - create/edit, link severity/priority/status
 - [ ] 13. **Traceability** - link requirement to test case to execution to defect, coverage view
