@@ -11,6 +11,7 @@ const SECTIONS = [
   { href: "releases", label: "Releases", icon: "Rl" },
   { href: "builds", label: "Builds", icon: "Bd" },
   { href: "test-plans", label: "Test Plans", icon: "Pl" },
+  { href: "environments", label: "Environments", icon: "Ev" },
 ];
 
 export default async function ProjectHubPage({
