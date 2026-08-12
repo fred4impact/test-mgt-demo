@@ -92,7 +92,7 @@ cleaned-up checkbox version before generating the project overview.
   - [x] 10b. **Test cycle case selection** - browse the test case repository (reusing feature 7's filters) and select cases into a cycle, optionally assigning a tester per case
 - [ ] 11. **Test execution** - assign testers, execute steps, record pass/fail/block/skip, attachments
   - [x] 11a. **Execution status recording** - TestExecution get-or-create per (cycle, test case), record overall status/actual result/comment (first real update endpoint - a tester revises status as they work)
-  - [ ] 11b. **Step-level execution** - ExecutionStep per test step, auto-created alongside the execution, each independently marked
+  - [x] 11b. **Step-level execution** - ExecutionStep per test step, auto-created alongside the execution, each independently marked
   - [ ] 11c. **Attachments** - Attachment (polymorphic, MinIO-backed) on an execution; needs a new Docker Compose service
 - [ ] 12. **Defects** - create/edit, link severity/priority/status
 - [ ] 13. **Traceability** - link requirement to test case to execution to defect, coverage view

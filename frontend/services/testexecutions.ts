@@ -61,6 +61,63 @@ export async function getTestExecution(
   return res.json();
 }
 
+export interface ExecutionStep {
+  id: string;
+  executionId: string;
+  testStepId: string;
+  stepNumber: number;
+  status: TestExecutionStatus;
+  actualResult: string | null;
+  comment: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export async function listExecutionSteps(
+  accessToken: string,
+  projectId: string,
+  cycleId: string,
+  testCaseId: string,
+): Promise<ExecutionStep[]> {
+  const res = await fetch(
+    `${BACKEND_URL}/api/v1/projects/${projectId}/test-cycles/${cycleId}/executions/${testCaseId}/steps`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      cache: "no-store",
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Failed to load execution steps");
+  }
+  return res.json();
+}
+
+export async function updateExecutionStep(
+  accessToken: string,
+  projectId: string,
+  cycleId: string,
+  testCaseId: string,
+  testStepId: string,
+  input: { status: TestExecutionStatus; actualResult?: string; comment?: string },
+): Promise<ExecutionStep> {
+  const res = await fetch(
+    `${BACKEND_URL}/api/v1/projects/${projectId}/test-cycles/${cycleId}/executions/${testCaseId}/steps/${testStepId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(input),
+    },
+  );
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ message: "Failed to update execution step" }));
+    throw new Error(error.message ?? "Failed to update execution step");
+  }
+  return res.json();
+}
+
 export async function updateTestExecution(
   accessToken: string,
   projectId: string,

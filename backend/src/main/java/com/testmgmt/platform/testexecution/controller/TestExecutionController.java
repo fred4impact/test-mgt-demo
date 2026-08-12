@@ -1,6 +1,8 @@
 package com.testmgmt.platform.testexecution.controller;
 
+import com.testmgmt.platform.testexecution.dto.ExecutionStepDto;
 import com.testmgmt.platform.testexecution.dto.TestExecutionDto;
+import com.testmgmt.platform.testexecution.dto.UpdateExecutionStepRequest;
 import com.testmgmt.platform.testexecution.dto.UpdateTestExecutionRequest;
 import com.testmgmt.platform.testexecution.service.TestExecutionService;
 import jakarta.validation.Valid;
@@ -48,5 +50,25 @@ public class TestExecutionController {
             @PathVariable UUID testCaseId,
             @Valid @RequestBody UpdateTestExecutionRequest request) {
         return testExecutionService.update(jwt, projectId, cycleId, testCaseId, request);
+    }
+
+    @GetMapping("/{testCaseId}/steps")
+    public List<ExecutionStepDto> listSteps(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID projectId,
+            @PathVariable UUID cycleId,
+            @PathVariable UUID testCaseId) {
+        return testExecutionService.listSteps(jwt, projectId, cycleId, testCaseId);
+    }
+
+    @PutMapping("/{testCaseId}/steps/{testStepId}")
+    public ExecutionStepDto updateStep(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID projectId,
+            @PathVariable UUID cycleId,
+            @PathVariable UUID testCaseId,
+            @PathVariable UUID testStepId,
+            @Valid @RequestBody UpdateExecutionStepRequest request) {
+        return testExecutionService.updateStep(jwt, projectId, cycleId, testCaseId, testStepId, request);
     }
 }
