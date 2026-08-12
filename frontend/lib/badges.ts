@@ -1,7 +1,9 @@
 export function statusBadgeClasses(status: string) {
-  return status.toUpperCase() === "ACTIVE"
-    ? "bg-status-success-soft text-status-success"
-    : "bg-status-neutral-soft text-status-neutral";
+  const normalized = status.toUpperCase();
+  if (normalized === "ACTIVE" || normalized === "PASSED") return "bg-status-success-soft text-status-success";
+  if (normalized === "FAILED") return "bg-status-danger-soft text-status-danger";
+  if (normalized === "BLOCKED" || normalized === "SKIPPED") return "bg-status-warning-soft text-status-warning";
+  return "bg-status-neutral-soft text-status-neutral";
 }
 
 export function severityBadgeClasses(severity: string | null) {

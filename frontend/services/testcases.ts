@@ -65,6 +65,17 @@ export async function listTestCases(
   return res.json();
 }
 
+export async function getTestCase(accessToken: string, projectId: string, testCaseId: string): Promise<TestCase> {
+  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/test-cases/${testCaseId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to load test case");
+  }
+  return res.json();
+}
+
 export async function createTestCase(
   accessToken: string,
   projectId: string,

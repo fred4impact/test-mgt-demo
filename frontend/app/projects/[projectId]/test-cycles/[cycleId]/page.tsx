@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getTestCycle, type TestCycle } from "@/services/testcycles";
 import { listTestCycleCases } from "@/services/testcyclecases";
+import { listTestExecutions } from "@/services/testexecutions";
 import { listProjectMembers } from "@/services/projectmembers";
 import { listTestFolders } from "@/services/testfolders";
 import { listTestCases } from "@/services/testcases";
@@ -50,8 +51,9 @@ export default async function TestCycleDetailPage({
     );
   }
 
-  const [selectedCases, members, folders, testCases] = await Promise.all([
+  const [selectedCases, executions, members, folders, testCases] = await Promise.all([
     listTestCycleCases(session.accessToken, projectId, cycleId),
+    listTestExecutions(session.accessToken, projectId, cycleId),
     listProjectMembers(session.accessToken, projectId),
     listTestFolders(session.accessToken, projectId),
     listTestCases(session.accessToken, projectId, filters),
@@ -59,6 +61,7 @@ export default async function TestCycleDetailPage({
 
   const memberNameById = new Map(members.map((member) => [member.userId, `${member.firstName} ${member.lastName}`]));
   const selectedTestCaseIds = new Set(selectedCases.map((selectedCase) => selectedCase.testCaseId));
+  const executionByTestCaseId = new Map(executions.map((execution) => [execution.testCaseId, execution]));
 
   return (
     <main className="mx-auto max-w-6xl px-12 py-10">
@@ -84,29 +87,43 @@ export default async function TestCycleDetailPage({
               <th className="px-4 py-2.5">Key</th>
               <th className="px-4 py-2.5">Title</th>
               <th className="px-4 py-2.5">Assignee</th>
+              <th className="px-4 py-2.5">Execution</th>
               <th className="px-4 py-2.5" />
             </tr>
           </thead>
           <tbody>
-            {selectedCases.map((selectedCase) => (
-              <tr key={selectedCase.testCaseId} className="border-t border-border hover:bg-surface-sunken">
-                <td className="px-4 py-2.5 font-mono text-xs text-muted">{selectedCase.key}</td>
-                <td className="px-4 py-2.5 font-semibold text-text">{selectedCase.title}</td>
-                <td className="px-4 py-2.5 text-muted">
-                  {selectedCase.assigneeId ? (memberNameById.get(selectedCase.assigneeId) ?? "Unknown") : "Unassigned"}
-                </td>
-                <td className="px-4 py-2.5 text-right">
-                  <form action={removeTestCycleCaseAction.bind(null, projectId, cycleId, selectedCase.testCaseId)}>
-                    <button type="submit" className="text-sm font-semibold text-status-danger hover:underline">
-                      Remove
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            ))}
+            {selectedCases.map((selectedCase) => {
+              const execution = executionByTestCaseId.get(selectedCase.testCaseId);
+              const executionStatus = execution?.status ?? "NOT_RUN";
+              return (
+                <tr key={selectedCase.testCaseId} className="border-t border-border hover:bg-surface-sunken">
+                  <td className="px-4 py-2.5 font-mono text-xs text-muted">{selectedCase.key}</td>
+                  <td className="px-4 py-2.5 font-semibold text-text">{selectedCase.title}</td>
+                  <td className="px-4 py-2.5 text-muted">
+                    {selectedCase.assigneeId ? (memberNameById.get(selectedCase.assigneeId) ?? "Unknown") : "Unassigned"}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <Link href={`/projects/${projectId}/test-cycles/${cycleId}/executions/${selectedCase.testCaseId}`}>
+                      <span
+                        className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${statusBadgeClasses(executionStatus)}`}
+                      >
+                        {executionStatus}
+                      </span>
+                    </Link>
+                  </td>
+                  <td className="px-4 py-2.5 text-right">
+                    <form action={removeTestCycleCaseAction.bind(null, projectId, cycleId, selectedCase.testCaseId)}>
+                      <button type="submit" className="text-sm font-semibold text-status-danger hover:underline">
+                        Remove
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              );
+            })}
             {selectedCases.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-center text-faint">
+                <td colSpan={5} className="px-4 py-6 text-center text-faint">
                   No test cases selected yet.
                 </td>
               </tr>
