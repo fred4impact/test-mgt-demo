@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -81,40 +82,13 @@ public class TestExecutionService {
     }
 
     public TestExecutionDto getById(Jwt jwt, UUID projectId, UUID cycleId, UUID testCaseId) {
-        UUID organizationId = userService.resolveOrProvisionUser(jwt).getOrganizationId();
-        Project project = projectRepository
-                .findByIdAndOrganizationId(projectId, organizationId)
-                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
-        TestCycle cycle = testCycleRepository
-                .findByIdAndProjectId(cycleId, project.getId())
-                .orElseThrow(() -> new NotFoundException("Test cycle not found: " + cycleId));
-        TestCycleCase cycleCase = testCycleCaseRepository
-                .findByCycleIdAndTestCaseId(cycle.getId(), testCaseId)
-                .orElseThrow(() -> new NotFoundException("Test case is not in this cycle: " + testCaseId));
-
-        TestExecution execution = testExecutionRepository
-                .findByCycleIdAndTestCaseId(cycle.getId(), testCaseId)
-                .orElseGet(() -> createExecution(project.getId(), cycle, cycleCase));
-
+        TestExecution execution = resolveExecution(jwt, projectId, cycleId, testCaseId);
         return TestExecutionMapper.toDto(execution);
     }
 
     public TestExecutionDto update(
             Jwt jwt, UUID projectId, UUID cycleId, UUID testCaseId, UpdateTestExecutionRequest request) {
-        UUID organizationId = userService.resolveOrProvisionUser(jwt).getOrganizationId();
-        Project project = projectRepository
-                .findByIdAndOrganizationId(projectId, organizationId)
-                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
-        TestCycle cycle = testCycleRepository
-                .findByIdAndProjectId(cycleId, project.getId())
-                .orElseThrow(() -> new NotFoundException("Test cycle not found: " + cycleId));
-        TestCycleCase cycleCase = testCycleCaseRepository
-                .findByCycleIdAndTestCaseId(cycle.getId(), testCaseId)
-                .orElseThrow(() -> new NotFoundException("Test case is not in this cycle: " + testCaseId));
-
-        TestExecution execution = testExecutionRepository
-                .findByCycleIdAndTestCaseId(cycle.getId(), testCaseId)
-                .orElseGet(() -> createExecution(project.getId(), cycle, cycleCase));
+        TestExecution execution = resolveExecution(jwt, projectId, cycleId, testCaseId);
 
         if (execution.getStartedAt() == null) {
             execution.setStartedAt(Instant.now());
@@ -143,7 +117,13 @@ public class TestExecutionService {
         execution.setAssigneeId(cycleCase.getAssigneeId());
         execution.setEnvironmentId(cycle.getEnvironmentId());
         execution.setBuildId(cycle.getBuildId());
-        return testExecutionRepository.save(execution);
+        try {
+            return testExecutionRepository.save(execution);
+        } catch (DataIntegrityViolationException e) {
+            return testExecutionRepository
+                    .findByCycleIdAndTestCaseId(cycle.getId(), cycleCase.getTestCaseId())
+                    .orElseThrow(() -> e);
+        }
     }
 
     public List<ExecutionStepDto> listSteps(Jwt jwt, UUID projectId, UUID cycleId, UUID testCaseId) {
@@ -211,6 +191,12 @@ public class TestExecutionService {
         step.setExecutionId(executionId);
         step.setTestStepId(testStep.getId());
         step.setStepNumber(testStep.getStepNumber());
-        return executionStepRepository.save(step);
+        try {
+            return executionStepRepository.save(step);
+        } catch (DataIntegrityViolationException e) {
+            return executionStepRepository
+                    .findByExecutionIdAndTestStepId(executionId, testStep.getId())
+                    .orElseThrow(() -> e);
+        }
     }
 }
