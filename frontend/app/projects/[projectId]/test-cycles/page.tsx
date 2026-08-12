@@ -91,7 +91,9 @@ export default async function ProjectTestCyclesPage({
           <tbody>
             {testCycles.map((testCycle) => (
               <tr key={testCycle.id} className="border-t border-border hover:bg-surface-sunken">
-                <td className="px-4 py-2.5 font-semibold text-text">{testCycle.name}</td>
+                <td className="px-4 py-2.5 font-semibold text-accent hover:underline">
+                  <Link href={`/projects/${projectId}/test-cycles/${testCycle.id}`}>{testCycle.name}</Link>
+                </td>
                 <td className="px-4 py-2.5 text-muted">{testPlanNameById.get(testCycle.testPlanId) ?? "-"}</td>
                 <td className="px-4 py-2.5 text-muted">{releaseNameById.get(testCycle.releaseId) ?? "-"}</td>
                 <td className="px-4 py-2.5 text-muted">{buildNameById.get(testCycle.buildId) ?? "-"}</td>

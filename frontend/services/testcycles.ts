@@ -26,6 +26,17 @@ export async function listTestCycles(accessToken: string, projectId: string): Pr
   return res.json();
 }
 
+export async function getTestCycle(accessToken: string, projectId: string, cycleId: string): Promise<TestCycle> {
+  const res = await fetch(`${BACKEND_URL}/api/v1/projects/${projectId}/test-cycles/${cycleId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to load test cycle");
+  }
+  return res.json();
+}
+
 export async function createTestCycle(
   accessToken: string,
   projectId: string,
